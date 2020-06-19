@@ -59,6 +59,9 @@
                 },
             });
 
+            $('.water').fadeOut();
+            $('.food').fadeOut();
+
             window.addEventListener("message", function(event) {
                 if (event.data.action == "update") {
                     barwater.circleProgress('value', event.data.water);
