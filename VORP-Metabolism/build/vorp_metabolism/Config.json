@@ -3,7 +3,13 @@
 
   "UseMetabolism": true, //Experimental Function
 
-  "FirstHungerStatus": 100, //100%
-  "FirstThirstStatus": 100, //100%
+  "FirstHungerStatus": 1000, //100%
+  "FirstThirstStatus": 1000, //100%
+
+  "OnRespawnHungerStatus": 1000,
+  "OnRespawnThirstStatus": 1000,
+
   "FirstMetabolismStatus": 0
+
+
 }

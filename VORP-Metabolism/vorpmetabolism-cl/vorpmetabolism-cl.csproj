@@ -54,6 +54,7 @@
     <Compile Include="NUIEvents.cs" />
     <Compile Include="vorpmetabolism_init.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WaistUtils.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -41,9 +41,10 @@ namespace vorpmetabolism_sv
             lastPlayerStatus.Add(p, status.ToString());
         }
 
-        private void GetLastStatus(Player player)
+        private void GetLastStatus([FromSource]Player player)
         {
-            TriggerEvent("vorp:getCharacter", int.Parse(player.Handle), new Action<dynamic>((user) =>
+            int _source = int.Parse(player.Handle);
+            TriggerEvent("vorp:getCharacter", _source, new Action<dynamic>((user) =>
             {
                 string status = user.status;
                 player.TriggerEvent("vorpmetabolism:StartFunctions", status);
@@ -51,7 +52,7 @@ namespace vorpmetabolism_sv
             }));
         }
 
-        private void OnPlayerDropped(Player player, string reason)
+        private void OnPlayerDropped([FromSource]Player player, string reason)
         {
             string sid = ("steam:" + player.Identifiers["steam"]);
             if (lastPlayerStatus.ContainsKey(player))
@@ -60,7 +61,7 @@ namespace vorpmetabolism_sv
             }
         }
 
-        private void SaveLastStatus(Player player, string status)
+        private void SaveLastStatus([FromSource]Player player, string status)
         {
             lastPlayerStatus[player] = status;
         }
