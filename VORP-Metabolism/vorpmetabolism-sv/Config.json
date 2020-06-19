@@ -1,3 +1,9 @@
 {
-  "defaultlang":  "Es"
+  "defaultlang": "Es",
+
+  "UseMetabolism": true, //Experimental Function
+
+  "FirstHungerStatus": 100, //100%
+  "FirstThirstStatus": 100, //100%
+  "FirstMetabolismStatus": 0
 }

@@ -11,6 +11,7 @@ server_scripts {
 }
 
 files {
+  'Newtonsoft.Json.dll',
   'ui/hud.html',
   'ui/css/style.css',
   'ui/js/circle-progress.js',

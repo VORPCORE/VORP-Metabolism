@@ -1,4 +1,5 @@
 ﻿using CitizenFX.Core;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,8 +16,39 @@ namespace vorpmetabolism_sv
         {
             EventHandlers["vorpmetabolism:SaveLastStatus"] += new Action<Player, string>(SaveLastStatus);
             EventHandlers["playerDropped"] += new Action<Player, string>(OnPlayerDropped);
+            EventHandlers["vorp:firstSpawn"] += new Action<int>(OnFirstSpawn);
 
+            EventHandlers["vorpmetabolism:GetStatus"] += new Action<Player>(GetLastStatus);
             Tick += saveLastStatusTick;
+        }
+
+        private void OnFirstSpawn(int source)
+        {
+            PlayerList pl = new PlayerList();
+            Player p = pl[source];
+
+            JObject status = new JObject();
+            status.Add("Hunger", LoadConfig.Config["FirstHungerStatus"].ToObject<int>());
+            status.Add("Thirst", LoadConfig.Config["FirstThirstStatus"].ToObject<int>());
+            status.Add("Metabolism", LoadConfig.Config["FirstMetabolismStatus"].ToObject<int>());
+
+            string sid = "steam:" + p.Identifiers["steam"];
+
+            Exports["ghmattimysql"].execute("UPDATE characters SET status=? WHERE identifier=?", new object[] { status.ToString(), sid });
+
+            p.TriggerEvent("vorpmetabolism:StartFunctions", status.ToString());
+
+            lastPlayerStatus.Add(p, status.ToString());
+        }
+
+        private void GetLastStatus(Player player)
+        {
+            TriggerEvent("vorp:getCharacter", int.Parse(player.Handle), new Action<dynamic>((user) =>
+            {
+                string status = user.status;
+                player.TriggerEvent("vorpmetabolism:StartFunctions", status);
+                lastPlayerStatus.Add(player, status);
+            }));
         }
 
         private void OnPlayerDropped(Player player, string reason)

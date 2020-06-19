@@ -43,7 +43,7 @@
             var barfood = $('.food');
 
             barwater.circleProgress({
-                value: 1.0,
+                value: 0.0,
                 size: sizeWater,
                 thickness: 4,
                 fill: {
@@ -51,7 +51,7 @@
                 },
             });
             barfood.circleProgress({
-                value: 1.0,
+                value: 0.0,
                 size: sizeFood,
                 thickness: 4,
                 fill: {
@@ -59,13 +59,10 @@
                 },
             });
 
-            $('.water').fadeOut();
-            $('.food').fadeOut();
-
             window.addEventListener("message", function(event) {
                 if (event.data.action == "update") {
                     barwater.circleProgress('value', event.data.water);
-                    barfood.circleProgress('value', event.data.water);
+                    barfood.circleProgress('value', event.data.food);
                 } else if (event.data.action == "hide") {
                     $('.water').fadeOut();
                     $('.food').fadeOut();

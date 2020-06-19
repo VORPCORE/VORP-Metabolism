@@ -1,4 +1,6 @@
 ﻿using CitizenFX.Core;
+using CitizenFX.Core.Native;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +11,18 @@ namespace vorpmetabolism_cl
 {
     class NUIEvents : BaseScript
     {
-        
+        public static async Task UpdateHUD()
+        {
+            JObject msgNUI = new JObject();
+
+            double thirst = vorpmetabolism_init.pStatus["Thirst"].ToObject<double>() / 100;
+            double hunger = vorpmetabolism_init.pStatus["Hunger"].ToObject<double>() / 100;
+
+            msgNUI.Add("action", "update");
+            msgNUI.Add("water", thirst);
+            msgNUI.Add("food", hunger);
+
+            API.SendNuiMessage(msgNUI.ToString());
+        }
     }
 }

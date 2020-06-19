@@ -15,11 +15,16 @@ namespace vorpmetabolism_cl
         public vorpmetabolism_init()
         {
             EventHandlers["vorpmetabolism:StartFunctions"] += new Action<string>(StartFunctions);
+            TriggerServerEvent("vorpmetabolism:GetStatus");
         }
 
-        private void StartFunctions(string status)
+        private async void StartFunctions(string status)
         {
             pStatus = JObject.Parse(status);
+
+            await Delay(1000);
+
+            NUIEvents.UpdateHUD();
         }
     }
 }
