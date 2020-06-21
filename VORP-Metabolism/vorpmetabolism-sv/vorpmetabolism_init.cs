@@ -20,6 +20,27 @@ namespace vorpmetabolism_sv
 
             EventHandlers["vorpmetabolism:GetStatus"] += new Action<Player>(GetLastStatus);
             Tick += saveLastStatusTick;
+            RegisterUsableItems();
+        }
+
+        public async Task RegisterUsableItems()
+        {
+            await Delay(4000);
+            Debug.WriteLine($"Metabolism: Loading {LoadConfig.Config["ItemsToUse"].Count().ToString()} items usables ");
+            for (int i = 0; i < LoadConfig.Config["ItemsToUse"].Count(); i++)
+            {
+                await Delay(200);
+                int index = i;
+                TriggerEvent("vorpCore:registerUsableItem", LoadConfig.Config["ItemsToUse"][i]["Name"].ToString(), new Action<dynamic>((data) =>
+                {
+                    PlayerList pl = new PlayerList();
+                    Player p = pl[data.source];
+                    string itemLabel = data.item.label;
+                    p.TriggerEvent("vorpmetabolism:useItem", index, itemLabel);
+                    TriggerEvent("vorpCore:subItem", data.source, LoadConfig.Config["ItemsToUse"][index]["Name"].ToString(), 1);
+                }));
+                
+            }
         }
 
         private void OnFirstSpawn(int source)
@@ -58,6 +79,7 @@ namespace vorpmetabolism_sv
             if (lastPlayerStatus.ContainsKey(player))
             {
                 Exports["ghmattimysql"].execute("UPDATE characters SET status=? WHERE identifier=?", new[] { lastPlayerStatus[player], sid });
+                lastPlayerStatus.Remove(player);
             }
         }
 

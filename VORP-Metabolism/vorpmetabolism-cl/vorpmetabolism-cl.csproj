@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="GetConfig.cs" />
     <Compile Include="NUIEvents.cs" />
+    <Compile Include="UseItemsActions.cs" />
     <Compile Include="vorpmetabolism_init.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WaistUtils.cs" />

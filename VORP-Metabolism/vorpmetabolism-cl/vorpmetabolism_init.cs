@@ -20,14 +20,9 @@ namespace vorpmetabolism_cl
         public vorpmetabolism_init()
         {
             EventHandlers["vorpmetabolism:StartFunctions"] += new Action<string>(StartFunctions);
-            EventHandlers["vorpmetabolism:ConsumeItem"] += new Action<string>(ConsumeItems);
+
             EventHandlers["vorp:PlayerForceRespawn"] += new Action(ForceRespawn);
             TriggerServerEvent("vorpmetabolism:GetStatus");
-        }
-
-        private void ConsumeItems(string itemUsed)
-        {
-
         }
 
         private void ForceRespawn()
@@ -39,6 +34,13 @@ namespace vorpmetabolism_cl
 
         private async void StartFunctions(string status)
         {
+            if (status.Length < 2)
+            {
+                return;
+            }
+
+            Debug.WriteLine(status);
+
             pStatus = JObject.Parse(status);
 
             await Delay(1000);
