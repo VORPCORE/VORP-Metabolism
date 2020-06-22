@@ -114,6 +114,7 @@ namespace vorpmetabolism_cl
                 PlayAnimDrink(GetConfig.Config["ItemsToUse"][index]["PropName"].ToString().ToLower());
             }
 
+            TriggerEvent("vorp:Tip", string.Format(GetConfig.Langs["OnUseItem"], label), 3000);
         }
 
         public async Task PlayAnimDrink(string propName)
