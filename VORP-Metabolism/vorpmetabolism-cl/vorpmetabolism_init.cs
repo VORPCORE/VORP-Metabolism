@@ -20,7 +20,6 @@ namespace vorpmetabolism_cl
         public vorpmetabolism_init()
         {
             EventHandlers["vorpmetabolism:StartFunctions"] += new Action<string>(StartFunctions);
-
             EventHandlers["vorp:PlayerForceRespawn"] += new Action(ForceRespawn);
             TriggerServerEvent("vorpmetabolism:GetStatus");
         }
@@ -248,7 +247,7 @@ namespace vorpmetabolism_cl
         {
             if (!loaded) { return; }
 
-            await Delay(6000);
+            await Delay(3000);
 
             if (pStatus["Thirst"].ToObject<int>() <= 0 && !API.IsPlayerDead(API.PlayerId()))
             {

@@ -50,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiCalls.cs" />
     <Compile Include="GetConfig.cs" />
     <Compile Include="NUIEvents.cs" />
     <Compile Include="UseItemsActions.cs" />
