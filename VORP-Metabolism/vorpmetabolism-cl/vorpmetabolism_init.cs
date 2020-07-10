@@ -42,17 +42,18 @@ namespace vorpmetabolism_cl
 
             pStatus = JObject.Parse(status);
 
-            await Delay(1000);
+            if (pStatus.ContainsKey("Thirst") && pStatus.ContainsKey("Hunger"))
+            {
+                await Delay(1000);
 
-            NUIEvents.UpdateHUD();
+                NUIEvents.UpdateHUD();
 
-            Tick += MetabolismTimers;
-            Tick += MetabolismUpdaters;
-            Tick += MetabolismSaveDB;
-            Tick += RadarControlHud;
-            Tick += MetabolismSet;
-            Tick += MetabolismSet;
-
+                Tick += MetabolismTimers;
+                Tick += MetabolismUpdaters;
+                Tick += MetabolismSaveDB;
+                Tick += RadarControlHud;
+                Tick += MetabolismSet;
+            }
             loaded = true;
         }
 
@@ -200,21 +201,21 @@ namespace vorpmetabolism_cl
         [Tick]
         private async Task MetabolismUpdaters()
         {
-            if (!loaded) { return; }
+            if (!loaded || !GetConfig.configLoaded) { return; }
 
-            await Delay(3600);
+            await Delay(GetConfig.Config["EveryTimeStatusDown"].ToObject<int>());
 
             if (pStatus["Thirst"].ToObject<int>() > 0 && pStatus["Hunger"].ToObject<int>() > 0 && !API.IsPlayerDead(API.PlayerId()))
             {
                 if (API.IsPedRunning(API.PlayerPedId()))
                 {
-                    pStatus["Thirst"] = pStatus["Thirst"].ToObject<int>() - 3;
-                    pStatus["Hunger"] = pStatus["Hunger"].ToObject<int>() - 2;
+                    pStatus["Thirst"] = pStatus["Thirst"].ToObject<int>() - GetConfig.Config["HowAmountThirstWhileRunning"].ToObject<int>();
+                    pStatus["Hunger"] = pStatus["Hunger"].ToObject<int>() - GetConfig.Config["HowAmountHungerWhileRunning"].ToObject<int>();
                 }
                 else
                 {
-                    pStatus["Thirst"] = pStatus["Thirst"].ToObject<int>() - 2;
-                    pStatus["Hunger"] = pStatus["Hunger"].ToObject<int>() - 1;
+                    pStatus["Thirst"] = pStatus["Thirst"].ToObject<int>() - GetConfig.Config["HowAmountThirst"].ToObject<int>();
+                    pStatus["Hunger"] = pStatus["Hunger"].ToObject<int>() - GetConfig.Config["HowAmountHunger"].ToObject<int>();
                 }
 
                 if (pStatus["Thirst"].ToObject<int>() < 0)
@@ -231,11 +232,11 @@ namespace vorpmetabolism_cl
             {
                 if (API.IsPedRunning(API.PlayerPedId()))
                 {
-                    pStatus["Metabolism"] = pStatus["Metabolism"].ToObject<int>() - 4;
+                    pStatus["Metabolism"] = pStatus["Metabolism"].ToObject<int>() - GetConfig.Config["HowAmountMetabolismWhileRunning"].ToObject<int>();
                 }
                 else
                 {
-                    pStatus["Metabolism"] = pStatus["Metabolism"].ToObject<int>() - 2;
+                    pStatus["Metabolism"] = pStatus["Metabolism"].ToObject<int>() - GetConfig.Config["HowAmountMetabolism"].ToObject<int>();
                 }
                    
             }

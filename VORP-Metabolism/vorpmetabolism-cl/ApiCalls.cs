@@ -16,6 +16,13 @@ namespace vorpmetabolism_cl
             EventHandlers["vorpmetabolism:changeValue"] += new Action<string, int>(changeValue);
             EventHandlers["vorpmetabolism:setValue"] += new Action<string, int>(setValue);
             EventHandlers["vorpmetabolism:getValue"] += new Action<string, dynamic>(getValue);
+
+            EventHandlers["vorpmetabolism:setHud"] += new Action<bool>(setHud);
+        }
+
+        private void setHud(bool enable)
+        {
+            NUIEvents.ShowHUD(enable);
         }
 
         private void getValue(string key, dynamic cb)

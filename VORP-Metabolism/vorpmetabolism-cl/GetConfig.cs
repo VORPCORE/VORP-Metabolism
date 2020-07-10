@@ -12,6 +12,8 @@ namespace vorpmetabolism_cl
         public static JObject Config = new JObject();
         public static Dictionary<string, string> Langs = new Dictionary<string, string>();
 
+        public static bool configLoaded = false;
+
         public GetConfig()
         {
             EventHandlers[$"{API.GetCurrentResourceName()}:SendConfig"] += new Action<string, ExpandoObject>(LoadDefaultConfig);
@@ -33,7 +35,7 @@ namespace vorpmetabolism_cl
 
         public void InitScripts()
         {
-            
+            configLoaded = true;
         }
     }
 }
