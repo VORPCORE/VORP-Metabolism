@@ -20,9 +20,11 @@ namespace vorpmetabolism_cl
             EventHandlers["vorpmetabolism:setHud"] += new Action<bool>(setHud);
         }
 
+        public static bool APIShowOn = true;
+
         private void setHud(bool enable)
         {
-            NUIEvents.ShowHUD(enable);
+            APIShowOn = enable;
         }
 
         private void getValue(string key, dynamic cb)

@@ -74,15 +74,15 @@ namespace vorpmetabolism_cl
                 if (newhealth > 100)
                     newhealth = 100;
 
-                Function.Call((Hash)0xC6258F41D86676E0, API.PlayerPedId(), 1, newhealth);
+                Function.Call((Hash)0xC6258F41D86676E0, API.PlayerPedId(), 0, newhealth);
             }
             if (GetConfig.Config["ItemsToUse"][index]["OuterCoreHealth"].ToObject<int>() != 0)
             {
                 int health = Function.Call<int>((Hash)0x82368787EA73C0F7, API.PlayerPedId(), 0);
                 int newhealth = health + GetConfig.Config["ItemsToUse"][index]["OuterCoreHealth"].ToObject<int>();
 
-                if (newhealth > 100)
-                    newhealth = 100;
+                if (newhealth > 150)
+                    newhealth = 150;
 
                 Function.Call((Hash)0xAC2767ED8BDFAB15, API.PlayerPedId(), newhealth, 0);
             }

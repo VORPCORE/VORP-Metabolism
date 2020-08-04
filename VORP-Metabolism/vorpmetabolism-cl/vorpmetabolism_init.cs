@@ -12,8 +12,6 @@ namespace vorpmetabolism_cl
     public class vorpmetabolism_init : BaseScript
     {
         public static JObject pStatus = new JObject();
-        public static bool radarShow = true;
-
         public static bool loaded = false;
         public static bool metabolismActive = false;
 
@@ -38,8 +36,6 @@ namespace vorpmetabolism_cl
                 return;
             }
 
-            Debug.WriteLine(status);
-
             pStatus = JObject.Parse(status);
 
             if (pStatus.ContainsKey("Thirst") && pStatus.ContainsKey("Hunger"))
@@ -57,7 +53,7 @@ namespace vorpmetabolism_cl
             loaded = true;
         }
 
-        [Tick]
+        
         private async Task MetabolismSet()
         {
             if (!loaded || !metabolismActive) { return; }
@@ -160,45 +156,33 @@ namespace vorpmetabolism_cl
             //Next Features
         }
 
-        [Tick]
+        
         private async Task RadarControlHud()
         {
             if (!loaded) { return; }
             await Delay(1000);
 
-            if (API.IsRadarHidden() && radarShow)
+            if ((API.IsRadarHidden()) || (API.IsPauseMenuActive()) || (!ApiCalls.APIShowOn) || (API.NetworkIsInSpectatorMode()) || (API.IsHudHidden()))
             {
                 NUIEvents.ShowHUD(false);
-                radarShow = false;
             }
-            else if (!API.IsRadarHidden() && !radarShow)
+            else
             {
                 NUIEvents.ShowHUD(true);
-                radarShow = true;
             }
 
-            if (API.IsPauseMenuActive() && radarShow)
-            {
-                NUIEvents.ShowHUD(false);
-                radarShow = false;
-            }
-            else if (!API.IsPauseMenuActive() && !radarShow && !API.IsPlayerDead(API.PlayerId()))
-            {
-                NUIEvents.ShowHUD(true);
-                radarShow = true;
-            }
-            
         }
 
-        [Tick]
+        
         private async Task MetabolismSaveDB()
         {
             if (!loaded) { return; }
             await Delay(60000); 
             TriggerServerEvent("vorpmetabolism:SaveLastStatus", pStatus.ToString());
+
         }
 
-        [Tick]
+        
         private async Task MetabolismUpdaters()
         {
             if (!loaded || !GetConfig.configLoaded) { return; }
@@ -243,7 +227,7 @@ namespace vorpmetabolism_cl
 
         }
 
-        [Tick]
+        
         private async Task MetabolismTimers()
         {
             if (!loaded) { return; }
