@@ -19,7 +19,7 @@ namespace vorpmetabolism_cl
         {
             EventHandlers["vorpmetabolism:StartFunctions"] += new Action<string>(StartFunctions);
             EventHandlers["vorp:PlayerForceRespawn"] += new Action(ForceRespawn);
-            TriggerServerEvent("vorpmetabolism:GetStatus");
+            EventHandlers["vorp:SelectedCharacter"] += new Action<int>((charId) => { TriggerServerEvent("vorpmetabolism:GetStatus"); });
         }
 
         private void ForceRespawn()
