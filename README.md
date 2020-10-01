@@ -6,7 +6,7 @@ Hunger &amp; Thirst system with metabolism included.
 [Discord VORP](https://discord.gg/23MPbQ6)
 
 ## Requirements
-- [VORPCore](https://github.com/VORPCORE/VORP-Core)
+- [VORP-Core](https://github.com/VORPCORE/VORP-Core)
 
 ## How to install
 * [Download the lastest version](https://github.com/VORPCORE/VORP-Metabolism/releases)
