@@ -12,20 +12,30 @@ namespace vorpmetabolism_sv
     {
         public static dynamic CORE;
 
+        PlayerList _players;
+
         public vorpmetabolism_init()
         {
-            EventHandlers["vorpmetabolism:SaveLastStatus"] += new Action<Player, string>(SaveLastStatus);
+            _players = Players;
 
+            EventHandlers["vorpmetabolism:SaveLastStatus"] += new Action<Player, string>(SaveLastStatus);
             EventHandlers["vorpmetabolism:GetStatus"] += new Action<Player>(GetLastStatus);
-            RegisterUsableItems();
+
+            EventHandlers.Add("onResourceStart", new Action<string>(resourceName =>
+            {
+                if (resourceName == "vorp_inventory")
+                    RegisterUsableItemsAsync();
+            }));
 
             TriggerEvent("getCore", new Action<dynamic>((dic) =>
             {
                 CORE = dic;
             }));
+
+            RegisterUsableItemsAsync();
         }
 
-        public async Task RegisterUsableItems()
+        public async Task RegisterUsableItemsAsync()
         {
             await Delay(3000);
             Debug.WriteLine($"Metabolism: Loading {LoadConfig.Config["ItemsToUse"].Count().ToString()} items usables ");
@@ -34,8 +44,7 @@ namespace vorpmetabolism_sv
                 int index = i;
                 TriggerEvent("vorpCore:registerUsableItem", LoadConfig.Config["ItemsToUse"][i]["Name"].ToString(), new Action<dynamic>((data) =>
                 {
-                    PlayerList pl = new PlayerList();
-                    Player p = pl[data.source];
+                    Player p = _players[data.source];
                     string itemLabel = data.item.label;
                     p.TriggerEvent("vorpmetabolism:useItem", index, itemLabel);
                     TriggerEvent("vorpCore:subItem", data.source, LoadConfig.Config["ItemsToUse"][index]["Name"].ToString(), 1);
