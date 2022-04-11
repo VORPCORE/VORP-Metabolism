@@ -21,9 +21,9 @@ namespace vorpmetabolism_sv
             EventHandlers["vorpmetabolism:SaveLastStatus"] += new Action<Player, string>(SaveLastStatus);
             EventHandlers["vorpmetabolism:GetStatus"] += new Action<Player>(GetLastStatus);
 
-            EventHandlers.Add("onResourceStart", new Action<string>(resoruceName =>
+            EventHandlers.Add("onResourceStart", new Action<string>(resourceName =>
             {
-                if (resoruceName == "vorp_inventory")
+                if (resourceName == "vorp_inventory")
                     RegisterUsableItemsAsync();
             }));
 
